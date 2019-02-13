@@ -41,10 +41,10 @@ public class ApplicationConfigurationFeatureTests {
             ConfigOverride.config("verifyHubConfiguration.metadata.trustStore.password", keyStoreResource.getPassword()),
             ConfigOverride.config("europeanIdentity.enabled", "false"),
             ConfigOverride.config("europeanIdentity.hubConnectorEntityId", "dummyEntity"),
-            ConfigOverride.config("europeanIdentity.aggregatedMetadata.trustAnchorUri", "http://dummy.com"),
-            ConfigOverride.config("europeanIdentity.aggregatedMetadata.metadataSourceUri", "http://dummy.com"),
-            ConfigOverride.config("europeanIdentity.aggregatedMetadata.trustStore.path", keyStoreResource.getAbsolutePath()),
-            ConfigOverride.config("europeanIdentity.aggregatedMetadata.trustStore.password", keyStoreResource.getPassword())
+            ConfigOverride.config("europeanIdentity.trustAnchorUri", "http://dummy.com"),
+            ConfigOverride.config("europeanIdentity.metadataSourceUri", "http://dummy.com"),
+            ConfigOverride.config("europeanIdentity.trustStore.path", keyStoreResource.getAbsolutePath()),
+            ConfigOverride.config("europeanIdentity.trustStore.password", keyStoreResource.getPassword())
         );
     }
 
