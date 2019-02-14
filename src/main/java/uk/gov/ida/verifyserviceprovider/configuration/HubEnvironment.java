@@ -65,6 +65,10 @@ public enum HubEnvironment {
         return this.metadataUri;
     }
 
+    public URI getTrustAnchorUri(){
+        return null;
+    }
+
     public KeyStore getMetadataTrustStore() {
         return loadTrustStore(metadataTrustStore);
     }

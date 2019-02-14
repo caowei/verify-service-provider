@@ -7,33 +7,19 @@ import io.dropwizard.client.JerseyClientConfiguration;
 
 import uk.gov.ida.saml.metadata.EidasMetadataConfiguration;
 import uk.gov.ida.saml.metadata.TrustStoreConfiguration;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.security.KeyStore;
 
-public class EuropeanIdentityConfiguration extends EidasMetadataConfiguration{
+import static java.util.Optional.ofNullable;
+
+public class EuropeanIdentityConfiguration extends EidasMetadataConfiguration {
 
     private final String hubConnectorEntityId;
     private final Boolean enabled;
-    private HubEnvironment environment;
-
-    public EuropeanIdentityConfiguration(HubEnvironment environment){
-        this(environment,null,null,null,null,true);
-    }
-
-    public EuropeanIdentityConfiguration(
-            HubEnvironment environment,
-            URI trustAnchorUri,
-            TrustStoreConfiguration trustStore,
-            URI metadataSourceUri,
-            String hubConnectorEntityId,
-            Boolean enabled
-    )
-    {
-        this(trustAnchorUri,null,null,null,null,null,null,trustStore,metadataSourceUri,hubConnectorEntityId,enabled);
-        setEnvironment(environment);
-    }
+    private HubEnvironment environment = HubEnvironment.COMPLIANCE_TOOL;
 
     @JsonCreator
     public EuropeanIdentityConfiguration(
@@ -60,23 +46,18 @@ public class EuropeanIdentityConfiguration extends EidasMetadataConfiguration{
     }
 
     @Override
-    public URI getTrustAnchorUri() {
-        if (super.getMetadataSourceUri()==null) {
-            return environment.getMetadataUri();
-        }
-        return super.getMetadataSourceUri();
+    public URI getMetadataSourceUri() {
+        return ofNullable(super.getMetadataSourceUri()).orElseGet(() -> environment.getMetadataUri());
     }
 
     @Override
     public KeyStore getTrustStore() {
-        if (super.getTrustStore()==null){
-            return environment.getMetadataTrustStore();
-        }
-        return super.getTrustStore();
+        return ofNullable(super.getTrustStore()).orElseGet(() -> environment.getMetadataTrustStore());
     }
 
-    public String getHubConnectorEntityId() {
-        return hubConnectorEntityId;
+    @Override
+    public URI getTrustAnchorUri() {
+        return ofNullable(super.getTrustAnchorUri()).orElseGet(() -> environment.getTrustAnchorUri());
     }
 
     public Boolean isEnabled() {
